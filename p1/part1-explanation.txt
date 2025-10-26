@@ -1,0 +1,5 @@
+When solving the provided CodeWars task, my main focus was to ensure that the code was as readable as possible. If this were a real world problem, I would have chosen this approach for the following two reasons:
+
+1. The data sets, as provided in the tests, are all relatively small. This means I don't have to worry about intensely optimising for large data sets that could cause performance issues or take into account the Big O Notation of the function.
+
+2. Ensuring the code is easy to read allows for other developers - and my future self - to be able to debug and make further additions far easier.

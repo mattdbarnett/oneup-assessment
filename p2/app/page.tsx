@@ -16,6 +16,8 @@ import { useState, useEffect } from "react";
  * 4. Implement the font used in the original design.
  * 
  * 5. Add further front-end validation to the input (no negatives, no non-numeric characters, etc.).
+ * 
+ * 6. Move the header in layout.tsx into a header component.
  */
 
 interface CommissionBand {
