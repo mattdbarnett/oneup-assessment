@@ -2,6 +2,22 @@
 
 import { useState, useEffect } from "react";
 
+/**
+ * Things I would add in the future:
+ * 
+ * 1. A progress bar in the Commission Input widget that has dotted lines at every range boundary.
+ * 
+ * 2. I'm inserting the colours from the provided design using square brackets. If I were to 
+ *    continue developing this project, I'd add these colours to globals.css under the @theme tag 
+ *    so I could use them in standard tailwind classes.
+ * 
+ * 3. Add the blue circles prefacing every subheading within every widget from the design.
+ * 
+ * 4. Implement the font used in the original design.
+ * 
+ * 5. Add further front-end validation to the input (no negatives, no non-numeric characters, etc.).
+ */
+
 interface CommissionBand {
   start: number;
   end: number | null;
@@ -29,7 +45,7 @@ function calculateCommission(input: number) {
    * Loop through bands
    */
   for (const band of COMMISSION_BANDS) {
-    
+
     const bandStart = band.start;
     const bandEnd = band.end ?? Infinity;
 
@@ -107,51 +123,61 @@ export default function Home() {
   }, [inputVal]);
 
   return (
-    <div className="px-5">
+    <div className="min-h-screen px-5 py-8">
 
-      {/** commission Calculator Component **/}
-      <div className="pt-6">
+      {/** Commission Calculator Widget **/}
+      <div className="max-w-7xl">
 
         {/** Top-Row **/}
-        <div className="flex flex-row w-full">
+        <div className="flex flex-row w-full mb-4">
           <h2 className="font-bold text-xl">
-            commission Calculator
+            Commission Calculator
           </h2>
         </div>
 
         {/** Content **/}
-        <div className="flex flex-col md:flex-row h-full md:max-h-[20vh]">
+        <div className="flex flex-col lg:flex-row gap-5 h-full">
           {/** Input Widget **/}
-          <div className="mt-2 py-5 px-5 rounded-3xl w-full h-full bg-white border border-[#E4E7EC]">
+          <div className="p-6 rounded-2xl w-full lg:w-1/2 h-full bg-white border border-[#E4E7EC]">
+            <h3 className="text-md font-semibold mb-4">Commission Input</h3>
+
             <div className="w-full">
-              <div className="flex flex-col justify-center w-full mb-4 rounded-lg">
-                <div className={ `mx-auto text-4xl font-bold ${(comVal) ? 'text-green-600' : 'text-gray-300'}` }>
-                  {comVal ? `£${comVal}` : "Enter Value"}
+              <div className="flex flex-col justify-center w-full mb-6">
+                <div className="mx-auto text-sm font-medium mb-3 tracking-wide">Total Commission</div>
+                <div className={ `mx-auto text-5xl font-bold transition-all duration-300 ${(comVal) ? 'text-green-600' : 'text-[#E4E7EC]'}` }>
+                  {comVal ? `£${comVal}` : "£0.00"}
                 </div>
-                <div className="mx-auto italic text-md text-gray-500 mt-2">Total Commission</div>
               </div>
 
-              <div className="flex mb-4">
+              <div className="flex mb-2">
                 <input
                   type="number"
                   onChange={(e) => setInputVal(e.target.value)}
+                  min="0"
                   placeholder="Enter revenue"
-                  className="w-2/3 mx-auto px-2 py-1 text-md rounded-lg bg-background border border-[#E4E7EC]"
+                  className="w-full px-4 py-3 text-lg rounded-xl bg-background border border-[#E4E7EC] transition-all"
                 ></input>
               </div>
             </div>
           </div>
 
           {/** Details Widget **/}
-          <div className="w-full h-full p-2 overflow-auto">
-            { details && details.length > 0 && (
-              <div className="flex flex-row flex-wrap gap-2 h-full content-start">
-                {details.map((item, index) => (
-                  <div key={index} className="flex justify-between items-center h-1/2 w-1/3 py-2 px-3 bg-white rounded-lg border border-[#E4E7EC]">
-                    <span className="text-sm text-gray-600">{item.band}</span>
-                    <span className="font-semibold text-green-600">£{item.amount.toFixed(2)}</span>
-                  </div>
-                ))}
+          <div className="w-full lg:w-1/2 h-full">
+            { details && details.length > 0 ? (
+              <div className="bg-white rounded-2xl border border-[#E4E7EC] p-6">
+                <h3 className="text-md font-semibold mb-4">Commission Breakdown</h3>
+                <div className="flex flex-col gap-3">
+                  {details.map((item, index) => (
+                    <div key={index} className="flex justify-between items-center py-1 px-4 bg-[#DBF3DB] rounded-xl border border-[#CDECCD]">
+                      <span className="text-sm font-medium">{item.band}</span>
+                      <span className="font-bold text-md text-green-600">£{item.amount.toFixed(2)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-white rounded-2xl border border-[#E4E7EC] p-6 h-full flex items-center justify-center">
+                <p className="text-gray-400 text-center">Enter revenue to see Commission Breakdown</p>
               </div>
             )}
           </div>
